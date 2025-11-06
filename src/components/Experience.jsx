@@ -1,5 +1,6 @@
 import React from 'react';
 import { Briefcase, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const jobs = [
   {
@@ -54,6 +55,11 @@ const jobs = [
   },
 ];
 
+const cardVariants = {
+  hidden: { opacity: 0, y: 18 },
+  show: (i) => ({ opacity: 1, y: 0, transition: { delay: i * 0.08, duration: 0.6, ease: [0.22, 1, 0.36, 1] } }),
+};
+
 const Experience = () => {
   return (
     <section id="experience" className="relative z-10 mx-auto max-w-6xl px-6 py-20">
@@ -64,7 +70,15 @@ const Experience = () => {
 
       <div className="grid gap-6">
         {jobs.map((job, idx) => (
-          <div key={idx} className="rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+          <motion.div
+            key={idx}
+            custom={idx}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={cardVariants}
+            className="rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur transition hover:border-emerald-400/30 hover:bg-white/10"
+          >
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
                 <h3 className="text-xl font-semibold text-white">{job.role} · {job.company}</h3>
@@ -88,7 +102,7 @@ const Experience = () => {
             {job.stack && (
               <div className="mt-2 text-sm text-slate-400">Stack: {job.stack}</div>
             )}
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>
